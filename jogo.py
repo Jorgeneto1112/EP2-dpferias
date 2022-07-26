@@ -1,7 +1,8 @@
+from distutils import core
 import random
+import Sorteia_uma_Questão_Inédita
 from termcolor import colored, cprint
 from exercicios import Transforma_Base_de_Questões
-from exercicios import Sorteia_uma_Questão_Inédita
 from exercicios import Valida_Uma_Questão
 from exercicios import Questão_para_Texto
 from exercicios import Gera_Ajuda_em_uma_Questão
@@ -210,19 +211,28 @@ while rodar_questao == True:
     lista_ja_sorteadas.append(ja_foi_sorteada)
     mostrar_questao = Questão_para_Texto.questao_para_texto(ja_foi_sorteada,n)
     correta = ja_foi_sorteada['correta']
+    if len(lista_quant_respostas) == len(lista_premio):
+        print('PARABÉNS, agora voce esta rico!','green')
+        break
+    if len(lista_quant_respostas) == 3:
+            print('Você passou para o nível MEDIO!')
+    if len(lista_quant_respostas) == 6:
+            print('Você passou para o nível DIFICIL!')
+    print(correta)
+    print(lista_quant_respostas)
     print(mostrar_questao)
     resposta = input('Qual sua resposta?!')
-    if resposta not in lista_alternativas:
+    while resposta not in lista_alternativas:
         cprint('Opção inválida!','red')
         cprint('As opções de resposta são "A", "B", "C", "D", "ajuda", "pula" e "parar"!','cyan')
         while continuar == True:
             resposta = input('Qual sua resposta?!')
             if resposta in lista_alternativas:
-                continuar = False
+                break
             else:
                 cprint('Opção inválida!','red')
                 cprint('As opções de resposta são "A", "B", "C", "D", "ajuda", "pula" e "parar"!','cyan')
-    elif resposta == 'ajuda':
+    if resposta == 'ajuda':
         dica = Gera_Ajuda_em_uma_Questão.gera_ajuda(ja_foi_sorteada)
         if ajuda == 0:
             cprint('Não deu! Você não tem mais direito a ajuda!')
@@ -252,27 +262,17 @@ while rodar_questao == True:
             cprint('Não deu! Você não tem mais direito a pulos!','red')
     elif resposta == 'parar':
         sim_nao = input('Deseja mesmo parar [S/N]?? Caso responda "S", sairá com R$ {0}!'.format(dinheiro))
-        if sim_nao == 's':
+        if sim_nao == 'S':
             print('Ok! Você parou e seu prêmio é de R$ {0}'.format(dinheiro))
             rodar_questao = False
             break
     elif resposta == correta:
-        if len(lista_quant_respostas) == 3:
-            dinheiro = lista_premio[i]
-            i += 1
-            n += 1
-            print('Você passou para o nível MEDIO!')
-        if len(lista_quant_respostas) == 6:
-            dinheiro = lista_premio[i]
-            i += 1
-            n += 1
-            print('Você passou para o nível DIFICIL!')
-        else:
-            dinheiro = lista_premio[i]
-            i += 1
-            n += 1
-            cprint(f'Você acertou! Seu prêmio atual é de R$ {dinheiro}','green')
+        dinheiro = lista_premio[i]
+        i += 1
+        n += 1
+        lista_quant_respostas.append(1)
+        cprint(f'Você acertou! Seu prêmio atual é de R$ {dinheiro}','green')
     else:
-        cprint('Que pena! Você errou e vai sair sem nada :(')
+        cprint('Que pena! Você errou e vai continuar pobre')
         break
         

@@ -1,9 +1,9 @@
 import random
-import Sorteia
+from exercicios import Sorteia_Uma_Questao
 def sorteia_questao_inedida(dic,nivel,lista):
     continuar = True
     questoes = dic[nivel]
-    sorteada = Sorteia.sorteia_questao(dic,nivel)
+    sorteada = Sorteia_Uma_Questao.sorteia_questao(dic,nivel)
     if sorteada in lista:
         while continuar == True:
             sorteada = random.choice(questoes)
