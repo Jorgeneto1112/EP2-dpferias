@@ -211,9 +211,6 @@ while rodar_questao == True:
     lista_ja_sorteadas.append(ja_foi_sorteada)
     mostrar_questao = Questão_para_Texto.questao_para_texto(ja_foi_sorteada,n)
     correta = ja_foi_sorteada['correta']
-    if len(lista_quant_respostas) == len(lista_premio):
-        print('PARABÉNS, agora voce esta rico!','green')
-        break
     if len(lista_quant_respostas) == 3:
             print('Você passou para o nível MEDIO!')
     if len(lista_quant_respostas) == 6:
@@ -268,6 +265,9 @@ while rodar_questao == True:
             break
     elif resposta == correta:
         dinheiro = lista_premio[i]
+        if dinheiro == 1000000:
+            cprint('PARABÉNS, agora voce esta rico!','green')
+            break
         i += 1
         n += 1
         lista_quant_respostas.append(1)
