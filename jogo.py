@@ -1,4 +1,4 @@
-from distutils import core
+
 import random
 import Sorteia_uma_Questão_Inédita
 from termcolor import colored, cprint
@@ -9,7 +9,27 @@ from exercicios import Gera_Ajuda_em_uma_Questão
 # valida todas as questoes
 # eu utilizei apenas o valida questao, nisso pegando apenas as questoes validadas 
 lista_dados_nova = []
-dados = [{'titulo': 'Qual o resultado da operação 57 + 32?',
+dados = [{'titulo': 'Um ser humano tem, em média, quantos fios de cabelos?',
+          'nivel': 'medio',
+          'opcoes': {'A': 'cerca 1000', 'B': 'cerca de 10000', 'C': 'cerca de 100000', 'D': 'cerca de 1000000'},
+          'correta': 'C'},
+
+         {'titulo': 'Anualmente, quantos terremotos sacodem a Terra?',
+          'nivel': 'dificil',
+          'opcoes': {'A': 'cerca de 100', 'B': 'cerca de 1000000', 'C': 'cerca de 100000', 'D': 'cerca de 10000'},
+          'correta': 'B'},
+
+         {'titulo': 'Que animal, em média, vive mais?',
+          'nivel': 'medio',
+          'opcoes': {'A': 'chimpanze', 'B': 'coelho', 'C': 'girafa', 'D': 'rinoceronte'},
+          'correta': 'D'},
+
+         {'titulo': 'Qual dos animais abaixo é mais rápido?',
+          'nivel': 'facil',
+          'opcoes': {'A': 'Elefante', 'B': 'Porco', 'C': 'Girafa', 'D': 'Cobra'},
+          'correta': 'C'},
+
+         {'titulo': 'Qual o resultado da operação 57 + 32?',
           'nivel': 'facil',
           'opcoes': {'A': '-19', 'B': '85', 'C': '89', 'D': '99'},
           'correta': 'C'},
@@ -180,6 +200,7 @@ dados_novo = Transforma_Base_de_Questões.transforma_base(lista_dados_nova)
 # variaveis
 rodar_questao = True
 lista_ja_sorteadas = []
+ja = 0
 dinheiro = 0
 pulos = 3
 ajuda = 2
@@ -208,15 +229,12 @@ tecla_para_continuar = input('Aperte ENTER para continuar...')
 while rodar_questao == True:
     # utilizei apenas o sorteia uma questao inedita, pois eu ja utilzo o valida questao no valida questao inedita
     ja_foi_sorteada = Sorteia_uma_Questão_Inédita.sorteia_questao_inedida(dados_novo,lista_dificuldade[i],lista_ja_sorteadas)
-    lista_ja_sorteadas.append(ja_foi_sorteada)
-    mostrar_questao = Questão_para_Texto.questao_para_texto(ja_foi_sorteada,n)
-    correta = ja_foi_sorteada['correta']
+    mostrar_questao = Questão_para_Texto.questao_para_texto(lista_ja_sorteadas[ja],n)
+    correta = lista_ja_sorteadas[ja]['correta']
     if len(lista_quant_respostas) == 3:
             print('Você passou para o nível MEDIO!')
     if len(lista_quant_respostas) == 6:
             print('Você passou para o nível DIFICIL!')
-    print(correta)
-    print(lista_quant_respostas)
     print(mostrar_questao)
     resposta = input('Qual sua resposta?!')
     while resposta not in lista_alternativas:
@@ -230,33 +248,30 @@ while rodar_questao == True:
                 cprint('Opção inválida!','red')
                 cprint('As opções de resposta são "A", "B", "C", "D", "ajuda", "pula" e "parar"!','cyan')
     if resposta == 'ajuda':
-        dica = Gera_Ajuda_em_uma_Questão.gera_ajuda(ja_foi_sorteada)
+        dica = Gera_Ajuda_em_uma_Questão.gera_ajuda(lista_ja_sorteadas[ja])
         if ajuda == 0:
             cprint('Não deu! Você não tem mais direito a ajuda!')
-        elif len(lista_ajuda) == 0:
+            passar = input('Aperte ENTER para continuar...')
+        if len(lista_ajuda) == 0:
             lista_ajuda.append(1)
             ajuda -= 1
             print('Ok, lá vem ajuda! Você ainda tem {0} ajudas!'.format(ajuda))
             cprint(dica,'green')
+            passar = input('Aperte ENTER para continuar...')
         elif len(lista_ajuda) != 0:
             lista_ajuda.append(1)
             print('Não deu! Você já pediu ajuda nesta questão!')
+            passar = input('Aperte ENTER para continuar...')
     elif resposta == 'pula':
         pulos -= 1
         if pulos == 0:
             print('Ok, pulando! ATENÇÃO: Você não tem mais direito a pulos!')
-            ja_foi_sorteada = Sorteia_uma_Questão_Inédita.sorteia_questao_inedida(dados_novo,lista_dificuldade[i],lista_ja_sorteadas)
-            lista_ja_sorteadas.append(ja_foi_sorteada)
-            mostrar_questao = Questão_para_Texto.questao_para_texto(ja_foi_sorteada,n)
-            print(mostrar_questao)
+            ja += 1
         elif pulos > 0:
             print('Ok, pulando! Você ainda tem {0} pulos!'.format(pulos))
-            ja_foi_sorteada = Sorteia_uma_Questão_Inédita.sorteia_questao_inedida(dados_novo,lista_dificuldade[i],lista_ja_sorteadas)
-            lista_ja_sorteadas.append(ja_foi_sorteada)
-            mostrar_questao = Questão_para_Texto.questao_para_texto(ja_foi_sorteada,n)
-            print(mostrar_questao)
+            ja += 1
         elif pulos <= 0:
-            cprint('Não deu! Você não tem mais direito a pulos!','red')
+            cprint('Não deu! Você não tem mais direito a pulos!','blue')
     elif resposta == 'parar':
         sim_nao = input('Deseja mesmo parar [S/N]?? Caso responda "S", sairá com R$ {0}!'.format(dinheiro))
         if sim_nao == 'S':
@@ -270,9 +285,12 @@ while rodar_questao == True:
             break
         i += 1
         n += 1
+        ja += 1
         lista_quant_respostas.append(1)
+        lista_ajuda = []
         cprint(f'Você acertou! Seu prêmio atual é de R$ {dinheiro}','green')
-    else:
+        passar = input('Aperte ENTER para continuar...')
+    elif resposta != correta:
         cprint('Que pena! Você errou e vai continuar pobre')
         break
         
