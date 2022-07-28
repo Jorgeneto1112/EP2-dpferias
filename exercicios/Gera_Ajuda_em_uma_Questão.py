@@ -6,16 +6,18 @@ def gera_ajuda(dic):
     correta = dic["correta"]
     lista_alternativas = []
     i = 0
+    lista_ajuda = []
     for respostas in alternativas:
         lista_alternativas.append(respostas)
 
     while i < um_ou_dois:
         sorteada = random.choice(lista_alternativas)
         if sorteada != correta:
-            
-            string += alternativas[sorteada]
-            string += ' '
-            i += 1
+            if sorteada not in lista_ajuda:
+              lista_ajuda.append(sorteada)
+              string += alternativas[sorteada]
+              string += ' '
+              i += 1
         
     return string
 print(gera_ajuda({
