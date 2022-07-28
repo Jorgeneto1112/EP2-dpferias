@@ -9,7 +9,22 @@ from exercicios import Gera_Ajuda_em_uma_Questão
 # valida todas as questoes
 # eu utilizei apenas o valida questao, nisso pegando apenas as questoes validadas 
 lista_dados_nova = []
-dados = [{'titulo': 'Um ser humano tem, em média, quantos fios de cabelos?',
+dados = [{'titulo': 'Em que parte do corpo humano você encontra uma amostra completa do seu DNA?',
+          'nivel': 'facil',
+          'opcoes': {'A': 'Nas unhas', 'B': 'Nos ossos', 'C': 'A Lingua', 'D': 'No tecido dos dedos'},
+          'correta': 'A'},
+
+         {'titulo': 'Qual a única parte do corpo humano não recebe sangue? Sem considerar, unhas, cabelos, pelos e dentes.',
+          'nivel': 'medio',
+          'opcoes': {'A': 'a parte posterior do cérebro', 'B': 'A Córnea', 'C': 'A Lingua', 'D': 'A parte inferior das orelhas'},
+          'correta': 'A'},
+
+         {'titulo': 'Qual o animal mais pesado do mundo?',
+          'nivel': 'facil',
+          'opcoes': {'A': 'A Orca', 'B': 'O Elefante Asiático', 'C': 'A Baleia Branca', 'D': 'A Baleia Azul'},
+          'correta': 'D'},
+
+         {'titulo': 'Um ser humano tem, em média, quantos fios de cabelos?',
           'nivel': 'medio',
           'opcoes': {'A': 'cerca 1000', 'B': 'cerca de 10000', 'C': 'cerca de 100000', 'D': 'cerca de 1000000'},
           'correta': 'C'},
